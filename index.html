@@ -152,7 +152,7 @@
             text-align: center;
             margin-bottom: 3rem;
             color: #C0A26D;
-            letter-spacing: 2px;
+            letter-spacing: (Bad translation, please provide the correct one)
         }
 
         /* Card Styles */
@@ -223,6 +223,57 @@
             font-size: 0.85rem;
             color: #F7F5EF;
             margin-bottom: 0.5rem;
+        }
+
+        /* Slider Styles */
+        .slider-container {
+            position: relative;
+            width: 100%;
+            height: 200px;
+            overflow: hidden;
+            border-radius: 12px;
+            margin-bottom: 1.5rem;
+        }
+
+        .slider {
+            display: flex;
+            transition: transform 0.5s ease-in-out;
+            height: 100%;
+        }
+
+        .slide {
+            min-width: 100%;
+            height: 100%;
+        }
+
+        .slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 12px;
+        }
+
+        .slider-nav {
+            position: absolute;
+            top: 50%;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            transform: translateY(-50%);
+        }
+
+        .slider-nav button {
+            background: rgba(192, 162, 109, 0.7);
+            border: none;
+            color: #0E0E0E;
+            font-size: 1.2rem;
+            padding: 0.5rem 1rem;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .slider-nav button:hover {
+            background: #C0A26D;
         }
 
         /* Set Section Specific */
@@ -437,7 +488,17 @@
             <h2 class="section-title">Complete Set</h2>
             <div class="set-cards">
                 <div class="card set-main-card">
-                    <div class="product-image">SET COLLECTION</div>
+                    <div class="slider-container">
+                        <div class="slider">
+                            <div class="slide"><img src="https://via.placeholder.com/600x200?text=Set+Image+1" alt="Set Image 1"></div>
+                            <div class="slide"><img src="https://via.placeholder.com/600x200?text=Set+Image+2" alt="Set Image 2"></div>
+                            <div class="slide"><img src="https://via.placeholder.com/600x200?text=Set+Image+3" alt="Set Image 3"></div>
+                        </div>
+                        <div class="slider-nav">
+                            <button class="prev">←</button>
+                            <button class="next">→</button>
+                        </div>
+                    </div>
                     <h3>Signature Cotton Set</h3>
                     <p>프리미엄 티셔츠와 집업 후드를 함께 구성한 완벽한 세트입니다. 
                     일상에서 편안하게 착용할 수 있는 고품질 소재로 제작되었습니다.</p>
@@ -493,7 +554,17 @@
             <h2 class="section-title">Individual Items</h2>
             <div class="cards-grid">
                 <div class="card">
-                    <div class="product-image">COTTON TEE</div>
+                    <div class="slider-container">
+                        <div class="slider">
+                            <div class="slide"><img src="https://via.placeholder.com/600x200?text=Set+Image+1" alt="Set Image 1"></div>
+                            <div class="slide"><img src="https://via.placeholder.com/600x200?text=Set+Image+2" alt="Set Image 2"></div>
+                            <div class="slide"><img src="https://via.placeholder.com/600x200?text=Set+Image+3" alt="Set Image 3"></div>
+                        </div>
+                        <div class="slider-nav">
+                            <button class="prev">←</button>
+                            <button class="next">→</button>
+                        </div>
+                    </div>
                     <h3>Signature Cotton Tee</h3>
                     <p>부드럽고 편안한 착용감의 프리미엄 반팔 티셔츠입니다. 
                     심플한 디자인으로 어떤 스타일에도 잘 어울립니다.</p>
@@ -509,7 +580,17 @@
                 </div>
 
                 <div class="card">
-                    <div class="product-image">ZIP HOODIE</div>
+                   <div class="slider-container">
+                        <div class="slider">
+                            <div class="slide"><img src="https://via.placeholder.com/600x200?text=Set+Image+1" alt="Set Image 1"></div>
+                            <div class="slide"><img src="https://via.placeholder.com/600x200?text=Set+Image+2" alt="Set Image 2"></div>
+                            <div class="slide"><img src="https://via.placeholder.com/600x200?text=Set+Image+3" alt="Set Image 3"></div>
+                        </div>
+                        <div class="slider-nav">
+                            <button class="prev">←</button>
+                            <button class="next">→</button>
+                        </div>
+                    </div>
                     <h3>Premium Zip Hoodie</h3>
                     <p>고급스러운 질감의 집업 후드입니다. 
                     적당한 두께로 사계절 착용 가능하며 활동성이 뛰어납니다.</p>
@@ -614,9 +695,35 @@
                 header.style.background = 'rgba(14, 14, 14, 0.95)';
             }
         });
+
+        // Slider functionality for multiple sliders
+        document.querySelectorAll('.slider-container').forEach(sliderContainer => {
+            const slider = sliderContainer.querySelector('.slider');
+            const slides = sliderContainer.querySelectorAll('.slide');
+            const prevButton = sliderContainer.querySelector('.slider-nav .prev');
+            const nextButton = sliderContainer.querySelector('.slider-nav .next');
+            let currentIndex = 0;
+
+            function updateSlider() {
+                slider.style.transform = `translateX(-${currentIndex * 100}%)`;
+            }
+
+            prevButton.addEventListener('click', () => {
+                currentIndex = (currentIndex > 0) ? currentIndex - 1 : slides.length - 1;
+                updateSlider();
+            });
+
+            nextButton.addEventListener('click', () => {
+                currentIndex = (currentIndex < slides.length - 1) ? currentIndex + 1 : 0;
+                updateSlider();
+            });
+
+            // Auto-slide every 5 seconds
+            setInterval(() => {
+                currentIndex = (currentIndex < slides.length - 1) ? currentIndex + 1 : 0;
+                updateSlider();
+            }, 5000);
+        });
     </script>
 </body>
-
 </html>
-
-
