@@ -3,55 +3,537 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Grooverhyme T-Shirt</title>
-  <!-- 루트에 둘 때 -->
-  <link rel="stylesheet" href="assets/css/style.css" />
-  <!-- products/ 폴더에 둘 때는 위 줄 대신:
-  <link rel="stylesheet" href="../assets/css/style.css" /> -->
+  <title>Haneul Worship T-Shirt</title>
   <style>
-    /* 기존 style.css에 없는 보조 스타일만 소량 추가 (원하면 style.css로 옮겨도 됨) */
-    .product-section { padding-top: 7rem; }
-    .product-grid { display: grid; grid-template-columns: 2fr 1.2fr; gap: 2rem; align-items: start; }
-    .product-gallery .slider-container { height: 420px; }
-    .price-row { display:flex; align-items:center; gap:.75rem; margin:.5rem 0 0.25rem; }
-    .price-old { color:#999; text-decoration:line-through; font-size:.95rem; }
-    .price-final { font-size:1.8rem; font-weight:700; color:#293B91; }
-    .badge { display:inline-block; padding:.25rem .5rem; border-radius:8px; font-size:.8rem; background:rgba(41,59,145,.1); color:#293B91; border:1px solid rgba(41,59,145,.2); }
-    .meta { color:#666; font-size:.9rem; }
-    .spec-list { margin-top:1rem; }
-    .spec-list p { margin:.25rem 0; }
-    .cta-stack { display:flex; gap:.75rem; margin-top:1rem; flex-wrap:wrap; }
-    .sticky-order { position:sticky; top:6.5rem; }
+    /* Reset & Base Styles */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
+      line-height: 1.6;
+      color: #333;
+      background: linear-gradient(135deg, #f8faff 0%, #ffffff 100%);
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+
+    /* Header */
+    header {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(20px);
+      z-index: 1000;
+      box-shadow: 0 2px 20px rgba(41, 59, 145, 0.08);
+      border-bottom: 1px solid rgba(41, 59, 145, 0.1);
+    }
+
+    .header-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 2rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .logo {
+      font-size: 1.5rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, #293B91, #4a5cb8);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    nav ul {
+      display: flex;
+      list-style: none;
+      gap: 2rem;
+    }
+
+    nav a {
+      text-decoration: none;
+      color: #666;
+      font-weight: 500;
+      transition: all 0.3s ease;
+      position: relative;
+    }
+
+    nav a:hover {
+      color: #293B91;
+      transform: translateY(-2px);
+    }
+
+    nav a::after {
+      content: '';
+      position: absolute;
+      bottom: -5px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: linear-gradient(135deg, #293B91, #4a5cb8);
+      transition: width 0.3s ease;
+    }
+
+    nav a:hover::after {
+      width: 100%;
+    }
+
+    /* Hero Section */
+    .hero {
+      padding: 8rem 2rem 4rem;
+      text-align: center;
+      background: linear-gradient(135deg, #f8faff 0%, #ffffff 50%, #f0f4ff 100%);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(41, 59, 145, 0.03) 0%, transparent 50%);
+      animation: rotate 20s linear infinite;
+    }
+
+    @keyframes rotate {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    .hero h1 {
+      font-size: 3.5rem;
+      font-weight: 800;
+      margin-bottom: 1.5rem;
+      background: linear-gradient(135deg, #293B91, #4a5cb8, #293B91);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      position: relative;
+      z-index: 2;
+    }
+
+    .hero p {
+      font-size: 1.2rem;
+      color: #666;
+      max-width: 600px;
+      margin: 0 auto 2rem;
+      line-height: 1.7;
+      position: relative;
+      z-index: 2;
+    }
+
+    .cta-buttons {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+      position: relative;
+      z-index: 2;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 1rem 2rem;
+      text-decoration: none;
+      border-radius: 50px;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btn::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+      transition: left 0.5s ease;
+    }
+
+    .btn:hover::before {
+      left: 100%;
+    }
+
+    .btn:not(.btn-primary) {
+      background: white;
+      color: #293B91;
+      border: 2px solid #293B91;
+      box-shadow: 0 4px 15px rgba(41, 59, 145, 0.2);
+    }
+
+    .btn:not(.btn-primary):hover {
+      background: #293B91;
+      color: white;
+      transform: translateY(-3px);
+      box-shadow: 0 8px 25px rgba(41, 59, 145, 0.3);
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #293B91, #4a5cb8);
+      color: white;
+      border: 2px solid transparent;
+      box-shadow: 0 4px 20px rgba(41, 59, 145, 0.3);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 30px rgba(41, 59, 145, 0.4);
+    }
+
+    /* Card Styles */
+    .card {
+      background: white;
+      border-radius: 20px;
+      padding: 2rem;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+      border: 1px solid rgba(41, 59, 145, 0.05);
+      transition: all 0.3s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.12);
+    }
+
+    /* Product Section */
+    .product-section {
+      padding: 4rem 0;
+    }
+
+    .product-grid {
+      display: grid;
+      grid-template-columns: 2fr 1.2fr;
+      gap: 3rem;
+      align-items: start;
+    }
+
+    /* Product Gallery */
+    .product-gallery .slider-container {
+      height: 450px;
+      position: relative;
+      border-radius: 16px;
+      overflow: hidden;
+      margin-bottom: 1.5rem;
+    }
+
+    .slider {
+      height: 100%;
+      position: relative;
+    }
+
+    .slide {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      opacity: 0;
+      transition: opacity 0.5s ease;
+    }
+
+    .slide.active {
+      opacity: 1;
+    }
+
+    .slide img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 16px;
+    }
+
+    .slider-nav {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      padding: 0 1rem;
+    }
+
+    .slider-nav button {
+      background: rgba(255, 255, 255, 0.9);
+      border: none;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 1.2rem;
+      color: #293B91;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    .slider-nav button:hover {
+      background: #293B91;
+      color: white;
+      transform: scale(1.1);
+    }
+
+    /* Product Details */
+    .product-details h3 {
+      color: #293B91;
+      margin-bottom: 1rem;
+      font-size: 1.4rem;
+      font-weight: 700;
+    }
+
+    .spec-list {
+      margin-top: 1.5rem;
+    }
+
+    .spec-list h4 {
+      color: #293B91;
+      margin-bottom: 0.75rem;
+      font-weight: 600;
+      font-size: 1.1rem;
+    }
+
+    .spec-list p {
+      margin: 0.5rem 0;
+      color: #666;
+      padding-left: 1rem;
+      position: relative;
+    }
+
+    .spec-list p::before {
+      content: '✓';
+      position: absolute;
+      left: 0;
+      color: #293B91;
+      font-weight: bold;
+    }
+
+    /* Pricing */
+    .price-row {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin: 1rem 0 0.5rem;
+    }
+
+    .price-old {
+      color: #999;
+      text-decoration: line-through;
+      font-size: 1.1rem;
+    }
+
+    .price-final {
+      font-size: 2.2rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, #293B91, #4a5cb8);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 0.4rem 0.8rem;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      background: linear-gradient(135deg, rgba(41, 59, 145, 0.1), rgba(74, 92, 184, 0.1));
+      color: #293B91;
+      border: 1px solid rgba(41, 59, 145, 0.2);
+      animation: pulse 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+    }
+
+    .meta {
+      color: #666;
+      font-size: 0.95rem;
+      margin: 0.5rem 0;
+    }
+
+    .meta strong {
+      color: #293B91;
+    }
+
+    /* Sticky Order */
+    .sticky-order {
+      position: sticky;
+      top: 7rem;
+    }
+
+    .sticky-order h2 {
+      color: #293B91;
+      margin-bottom: 1rem;
+      font-size: 1.8rem;
+      font-weight: 700;
+    }
+
+    .cta-stack {
+      display: flex;
+      gap: 0.75rem;
+      margin-top: 1.5rem;
+      flex-wrap: wrap;
+    }
+
+    /* Apply Section */
+    .apply-section {
+      padding: 4rem 0;
+      background: linear-gradient(135deg, #f8faff 0%, #ffffff 100%);
+      text-align: center;
+    }
+
+    .section-title {
+      font-size: 2.5rem;
+      font-weight: 800;
+      margin-bottom: 1rem;
+      background: linear-gradient(135deg, #293B91, #4a5cb8);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .apply-content p {
+      font-size: 1.1rem;
+      color: #666;
+      margin: 1rem 0;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .apply-link {
+      display: inline-block;
+      margin: 2rem 0 1rem;
+      padding: 1.2rem 3rem;
+      background: linear-gradient(135deg, #293B91, #4a5cb8);
+      color: white;
+      text-decoration: none;
+      border-radius: 50px;
+      font-weight: 700;
+      font-size: 1.1rem;
+      box-shadow: 0 8px 30px rgba(41, 59, 145, 0.3);
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .apply-link::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+      transition: left 0.5s ease;
+    }
+
+    .apply-link:hover::before {
+      left: 100%;
+    }
+
+    .apply-link:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 40px rgba(41, 59, 145, 0.4);
+    }
+
+    .apply-note {
+      color: #999;
+      font-size: 0.9rem;
+      font-style: italic;
+    }
+
+    /* Footer */
+    footer {
+      background: #293B91;
+      color: white;
+      padding: 2rem 0;
+      text-align: center;
+    }
+
+    .footer-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+
+    /* Rating Stars */
+    .meta:has(strong:contains("평점")) {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    /* Responsive Design */
     @media (max-width: 1024px) {
-      .product-grid { grid-template-columns: 1fr; }
-      .product-gallery .slider-container { height: 320px; }
-      .sticky-order { position:static; }
+      .product-grid {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+      }
+      
+      .product-gallery .slider-container {
+        height: 350px;
+      }
+      
+      .sticky-order {
+        position: static;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .hero h1 {
+        font-size: 2.5rem;
+      }
+      
+      .hero p {
+        font-size: 1rem;
+      }
+      
+      .container {
+        padding: 0 1rem;
+      }
+      
+      .header-container {
+        padding: 1rem;
+      }
+      
+      .card {
+        padding: 1.5rem;
+      }
+      
+      .cta-buttons {
+        flex-direction: column;
+        align-items: center;
+      }
+      
+      .btn {
+        width: 200px;
+        text-align: center;
+      }
     }
   </style>
 </head>
 <body>
-  <!-- Header -->
-  <header>
-    <div class="header-container">
-      <div class="logo">Haneul Worship</div>
-      <nav>
-        <ul>
-          <li><a href="#order-section">주문</a></li>
-        </ul>
-      </nav>
-    </div>
-  </header>
-
-  <!-- Hero -->
-  <section class="hero">
-    <h1>Haneul Worship T-Shirt</h1>
-    <p>Haneul Worship 티셔츠 - WITHGOD<br>편안한 착용감과 세련된 디자인의 프리미엄 티셔츠</p>
-    <div class="cta-buttons">
-      <a href="#product-section" class="btn">상세 보기</a>
-      <a href="#order-section" class="btn btn-primary">주문하기</a>
-    </div>
-  </section>
-
   <!-- Product -->
   <section id="product-section" class="product-section">
     <div class="container">
@@ -60,61 +542,49 @@
         <div class="product-gallery card">
           <div class="slider-container">
             <div class="slider">
-              <div class="slide"><img src="https://via.placeholder.com/1200x800?text=Grooverhyme+Black+T-Shirt" alt="Grooverhyme Black T-Shirt"></div>
-              <div class="slide"><img src="https://via.placeholder.com/1200x800?text=Grooverhyme+White+T-Shirt" alt="Grooverhyme White T-Shirt"></div>
-              <div class="slide"><img src="https://via.placeholder.com/1200x800?text=Detail+Fabric" alt="Fabric Detail"></div>
+              <div class="slide active"><img src="https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=800&h=600&fit=crop" alt="Haneul Worship Black T-Shirt"></div>
+              <div class="slide"><img src="https://images.unsplash.com/photo-1586790170083-2f9ceadc732d?w=800&h=600&fit=crop" alt="Haneul Worship White T-Shirt"></div>
+              <div class="slide"><img src="https://images.unsplash.com/photo-1503341504253-dff4815485f1?w=800&h=600&fit=crop" alt="Fabric Detail"></div>
             </div>
             <div class="slider-nav">
               <button class="prev">←</button>
               <button class="next">→</button>
             </div>
           </div>
-          <div class="product-details" style="margin-top:1rem;">
+          <div class="product-details">
             <h3>제품 정보</h3>
             <p class="meta"><strong>상품명:</strong> Haneul Worship Tee</p>
-            <p class="meta"><strong>평점:</strong> ★ 4.8 (507개 리뷰)</p>
+            <p class="meta"><strong>평점:</strong> ⭐⭐⭐⭐⭐ 4.8 (507개 리뷰)</p>
             <div class="spec-list">
               <h4>소재 & 특징</h4>
-              <p>• 부드러운 터치감의 코튼 블렌드</p>
-              <p>• 데일리 실루엣, 단 한가지 컬러</p>
-              <p>• 통기성과 형태 안정성 강화</p>
+              <p>부드러운 터치감의 코튼 블렌드</p>
+              <p>데일리 실루엣, 단 한가지 컬러</p>
+              <p>통기성과 형태 안정성 강화</p>
             </div>
           </div>
         </div>
 
         <!-- Right: Summary / Order -->
         <aside class="card sticky-order">
-          <h2 style="margin-bottom:.5rem;">Haneul Worship T-Shirt</h2>
+          <h2>Haneul Worship T-Shirt</h2>
           <p class="meta">재고: <strong>주문 접수</strong></p>
           <div class="price-row">
             <span class="price-old">30,000원</span>
-            <span class="badge">50%↓</span>
+            <span class="badge">50% 할인</span>
           </div>
           <div class="price-final">15,000원</div>
-          <p class="meta">* 세트로 구매 시 1000원 할인</p>
+          <p class="meta">* 세트로 구매 시 1000원 추가 할인</p>
 
           <div class="spec-list">
-            <h4>옵션</h4>
-            <p>• 사이즈: S / M / L / XL / 2XL(+5000원) / 2XL(+5000원)</p>
+            <h4>사이즈 옵션</h4>
+            <p>S / M / L / XL 기본가</p>
+            <p>2XL / 3XL (+5,000원)</p>
           </div>
 
           <div class="cta-stack">
-            <a class="btn" href="#product-section">상세정보</a>
-            <a class="btn btn-primary" href="#order-section">주문하기</a>
+            <a href="https://example.com/order" target="_blank" class="apply-link">주문하기</a>
           </div>
         </aside>
-      </div>
-    </div>
-  </section>
-
-  <!-- Order -->
-  <section id="order-section" class="apply-section">
-    <div class="container">
-      <div class="apply-content">
-        <h2 class="section-title">Order</h2>
-        <p>아래 버튼을 눌러 주문 페이지로 이동하세요. 수량/사이즈 선택이 가능합니다.</p>
-        <a href="https://example.com/order" target="_blank" class="apply-link">주문하기</a>
-        <p class="apply-note">* 구글폼으로 접수해주세요.</p>
       </div>
     </div>
   </section>
@@ -123,14 +593,56 @@
   <footer>
     <div class="footer-content">
       <div class="copyright">
-        <p>&copy; <span id="current-year"></span> Haneul Worship. All rights reserved.</p>
+        <p>&copy; <span id="current-year">2024</span> Haneul Worship. All rights reserved.</p>
       </div>
     </div>
   </footer>
 
-  <!-- 루트에 둘 때 -->
-  <script src="assets/js/script.js"></script>
-  <!-- products/ 폴더에 둘 때는 위 줄 대신:
-  <script src="../assets/js/script.js"></script> -->
+  <script>
+    // Slider functionality
+    let currentSlide = 0;
+    const slides = document.querySelectorAll('.slide');
+    const totalSlides = slides.length;
+
+    function showSlide(index) {
+      slides.forEach((slide, i) => {
+        slide.classList.toggle('active', i === index);
+      });
+    }
+
+    function nextSlide() {
+      currentSlide = (currentSlide + 1) % totalSlides;
+      showSlide(currentSlide);
+    }
+
+    function prevSlide() {
+      currentSlide = (currentSlide - 1 + totalSlides) % totalSlides;
+      showSlide(currentSlide);
+    }
+
+    // Event listeners
+    document.querySelector('.next').addEventListener('click', nextSlide);
+    document.querySelector('.prev').addEventListener('click', prevSlide);
+
+    // Auto slide
+    setInterval(nextSlide, 5000);
+
+    // Update current year
+    document.getElementById('current-year').textContent = new Date().getFullYear();
+
+    // Smooth scrolling for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          target.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start'
+          });
+        }
+      });
+    });
+  </script>
 </body>
 </html>
