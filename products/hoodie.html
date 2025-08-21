@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Grooverhyme T-Shirt</title>
+  <!-- 루트에 둘 때 -->
+  <link rel="stylesheet" href="assets/css/style.css" />
+  <!-- products/ 폴더에 둘 때는 위 줄 대신:
+  <link rel="stylesheet" href="../assets/css/style.css" /> -->
+  <style>
+    /* 기존 style.css에 없는 보조 스타일만 소량 추가 (원하면 style.css로 옮겨도 됨) */
+    .product-section { padding-top: 7rem; }
+    .product-grid { display: grid; grid-template-columns: 2fr 1.2fr; gap: 2rem; align-items: start; }
+    .product-gallery .slider-container { height: 420px; }
+    .price-row { display:flex; align-items:center; gap:.75rem; margin:.5rem 0 0.25rem; }
+    .price-old { color:#999; text-decoration:line-through; font-size:.95rem; }
+    .price-final { font-size:1.8rem; font-weight:700; color:#293B91; }
+    .badge { display:inline-block; padding:.25rem .5rem; border-radius:8px; font-size:.8rem; background:rgba(41,59,145,.1); color:#293B91; border:1px solid rgba(41,59,145,.2); }
+    .meta { color:#666; font-size:.9rem; }
+    .spec-list { margin-top:1rem; }
+    .spec-list p { margin:.25rem 0; }
+    .cta-stack { display:flex; gap:.75rem; margin-top:1rem; flex-wrap:wrap; }
+    .sticky-order { position:sticky; top:6.5rem; }
+    @media (max-width: 1024px) {
+      .product-grid { grid-template-columns: 1fr; }
+      .product-gallery .slider-container { height: 320px; }
+      .sticky-order { position:static; }
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header>
+    <div class="header-container">
+      <div class="logo">Grooverhyme</div>
+      <nav>
+        <ul>
+          <li><a href="#order-section">주문</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <section class="hero">
+    <h1>Haneul Worship hoodie</h1>
+    <p>Haneul Worship 후드집업 - WITHGOD<br>편안한 착용감과 세련된 디자인의 프리미엄 후드집업</p>
+    <div class="cta-buttons">
+      <a href="#product-section" class="btn">상세 보기</a>
+      <a href="#order-section" class="btn btn-primary">주문하기</a>
+    </div>
+  </section>
+
+  <!-- Product -->
+  <section id="product-section" class="product-section">
+    <div class="container">
+      <div class="product-grid">
+        <!-- Left: Gallery -->
+        <div class="product-gallery card">
+          <div class="slider-container">
+            <div class="slider">
+              <div class="slide"><img src="https://via.placeholder.com/1200x800?text=Grooverhyme+Black+T-Shirt" alt="Grooverhyme Black T-Shirt"></div>
+              <div class="slide"><img src="https://via.placeholder.com/1200x800?text=Grooverhyme+White+T-Shirt" alt="Grooverhyme White T-Shirt"></div>
+              <div class="slide"><img src="https://via.placeholder.com/1200x800?text=Detail+Fabric" alt="Fabric Detail"></div>
+            </div>
+            <div class="slider-nav">
+              <button class="prev">←</button>
+              <button class="next">→</button>
+            </div>
+          </div>
+          <div class="product-details" style="margin-top:1rem;">
+            <h3>제품 정보</h3>
+            <p class="meta"><strong>상품명:</strong> Haneul Worship Tee</p>
+            <p class="meta"><strong>평점:</strong> ★ 4.8 (507개 리뷰)</p>
+            <div class="spec-list">
+              <h4>소재 & 특징</h4>
+              <p>• 부드러운 터치감의 코튼 블렌드</p>
+              <p>• 데일리 실루엣, 단 한가지 컬러</p>
+              <p>• 통기성과 형태 안정성 강화</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right: Summary / Order -->
+        <aside class="card sticky-order">
+          <h2 style="margin-bottom:.5rem;">Grooverhyme T-Shirt</h2>
+          <p class="meta">재고: <strong>주문 접수</strong></p>
+          <div class="price-row">
+            <span class="price-old">30,000원</span>
+            <span class="badge">50%↓</span>
+          </div>
+          <div class="price-final">15,000원</div>
+          <p class="meta">* 세트로 구매 시 1000원 할인</p>
+
+          <div class="spec-list">
+            <h4>옵션</h4>
+            <p>• 사이즈: S / M / L / XL / 2XL(+5000원) / 2XL(+5000원)</p>
+          </div>
+
+          <div class="cta-stack">
+            <a class="btn" href="#product-section">상세정보</a>
+            <a class="btn btn-primary" href="#order-section">주문하기</a>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <!-- Order -->
+  <section id="order-section" class="apply-section">
+    <div class="container">
+      <div class="apply-content">
+        <h2 class="section-title">Order</h2>
+        <p>아래 버튼을 눌러 주문 페이지로 이동하세요. 수량/사이즈 선택이 가능합니다.</p>
+        <a href="https://example.com/order" target="_blank" class="apply-link">주문하기</a>
+        <p class="apply-note">* 구글폼으로 접수해주세요.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-content">
+      <div class="copyright">
+        <p>&copy; <span id="current-year"></span> Grooverhyme. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- 루트에 둘 때 -->
+  <script src="assets/js/script.js"></script>
+  <!-- products/ 폴더에 둘 때는 위 줄 대신:
+  <script src="../assets/js/script.js"></script> -->
+</body>
+</html>
