@@ -347,21 +347,36 @@ footer {
     color: #666666;
     font-size: 0.8rem;
 }
-/* ==== Product card image sizing ==== */
-.cards-grid .card > img{
+/* ==== Product card image sizing (Haneul Worship 스타일) ==== */
+.cards-grid .card > img {
   width: 100%;
-  height: 260px;          /* 데스크톱 기본 높이 */
-  object-fit: cover;      /* 영역 꽉 채우되 비율 유지(잘림 허용) */
-  border-radius: 12px;
-  display: block;         /* 이미지 아래 여백 제거 */
+  height: 280px;              /* 기본 카드 높이를 약간 키움 */
+  object-fit: cover;          /* 영역 꽉 채우되 비율 유지(잘림 허용) */
+  border-radius: 16px;        /* 페이지 전반의 radius와 통일 */
+  display: block;             /* inline-gap 제거 */
+  box-shadow: 0 8px 25px rgba(41, 59, 145, 0.08); /* 은은한 그림자 */
   margin-bottom: 1rem;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.cards-grid .card > img:hover {
+  transform: scale(1.02);
+  box-shadow: 0 12px 35px rgba(41, 59, 145, 0.15);
+}
+
+@media (max-width: 1024px){
+  .cards-grid .card > img {
+    height: 240px;            /* 태블릿 */
+  }
 }
 
 @media (max-width: 768px){
-  .cards-grid .card > img{
-    height: 220px;        /* 모바일에서 조금 낮게 */
+  .cards-grid .card > img {
+    height: 200px;            /* 모바일에서 낮게 */
+    border-radius: 12px;
   }
 }
+
 
 
 /* Responsive Design */
