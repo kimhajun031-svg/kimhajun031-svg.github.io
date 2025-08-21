@@ -8,8 +8,13 @@
   <!-- ✅ 외부 공통 CSS -->
   <link rel="stylesheet" href="/assets/css/style.css" />
 
-  <!-- ✅ 후드 페이지 전용 스타일 -->
+  <!-- ✅ Hoodie 페이지 전용 스타일 -->
   <style>
+    /* ==== Header offset ==== */
+    :root { --header-h: 88px; }
+    @media (max-width: 768px) { :root { --header-h: 72px; } }
+    body { padding-top: var(--header-h); }
+
     /* 뒤로가기 버튼 */
     .back-btn {
       display: flex;
@@ -96,7 +101,7 @@
     @keyframes pulse { 0%,100%{transform:scale(1)} 50%{transform:scale(1.05)} }
 
     /* 주문 요약 박스 */
-    .sticky-order { position: sticky; top: 7rem; }
+    .sticky-order { position: sticky; top: calc(var(--header-h) + 8px); }
     .sticky-order h2 { color: #293B91; margin-bottom: 1rem; font-size: 1.8rem; font-weight: 700; }
     .cta-stack { display: flex; gap: 0.75rem; margin-top: 1.5rem; flex-wrap: wrap; }
 
