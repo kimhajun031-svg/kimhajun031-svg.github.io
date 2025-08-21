@@ -3,10 +3,14 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="stylesheet" href="style.css" />
-  
   <title>Haneul Worship T-Shirt</title>
+
+  <!-- ✅ 외부 공통 스타일 -->
+  <link rel="stylesheet" href="style.css" />
+
+  <!-- ✅ 이 페이지 전용 보조 스타일만 유지 -->
   <style>
+    /* 뒤로가기 버튼 (공통 CSS에 없으므로 유지) */
     .back-btn {
       display: flex;
       align-items: center;
@@ -19,225 +23,14 @@
       border-radius: 25px;
       border: 1px solid rgba(41, 59, 145, 0.2);
     }
-
     .back-btn:hover {
       color: #293B91;
       background: rgba(41, 59, 145, 0.05);
       transform: translateX(-3px);
     }
 
-    /* Reset & Base Styles */
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    body {
-      font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
-      line-height: 1.6;
-      color: #333;
-      background: linear-gradient(135deg, #f8faff 0%, #ffffff 100%);
-    }
-
-    .container {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 0 2rem;
-    }
-
-    /* Header */
-    header {
-      position: fixed;
-      top: 0;
-      width: 100%;
-      background: rgba(255, 255, 255, 0.95);
-      backdrop-filter: blur(20px);
-      z-index: 1000;
-      box-shadow: 0 2px 20px rgba(41, 59, 145, 0.08);
-      border-bottom: 1px solid rgba(41, 59, 145, 0.1);
-    }
-
-    .header-container {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 1rem 2rem;
-      max-width: 1200px;
-      margin: 0 auto;
-    }
-
-    .logo {
-      font-size: 1.5rem;
-      font-weight: 700;
-      background: linear-gradient(135deg, #293B91, #4a5cb8);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-
-    nav ul {
-      display: flex;
-      list-style: none;
-      gap: 2rem;
-    }
-
-    nav a {
-      text-decoration: none;
-      color: #666;
-      font-weight: 500;
-      transition: all 0.3s ease;
-      position: relative;
-    }
-
-    nav a:hover {
-      color: #293B91;
-      transform: translateY(-2px);
-    }
-
-    nav a::after {
-      content: '';
-      position: absolute;
-      bottom: -5px;
-      left: 0;
-      width: 0;
-      height: 2px;
-      background: linear-gradient(135deg, #293B91, #4a5cb8);
-      transition: width 0.3s ease;
-    }
-
-    nav a:hover::after {
-      width: 100%;
-    }
-
-    /* Hero Section */
-    .hero {
-      padding: 8rem 2rem 4rem;
-      text-align: center;
-      background: linear-gradient(135deg, #f8faff 0%, #ffffff 50%, #f0f4ff 100%);
-      position: relative;
-      overflow: hidden;
-    }
-
-    .hero::before {
-      content: '';
-      position: absolute;
-      top: -50%;
-      left: -50%;
-      width: 200%;
-      height: 200%;
-      background: radial-gradient(circle, rgba(41, 59, 145, 0.03) 0%, transparent 50%);
-      animation: rotate 20s linear infinite;
-    }
-
-    @keyframes rotate {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
-    }
-
-    .hero h1 {
-      font-size: 3.5rem;
-      font-weight: 800;
-      margin-bottom: 1.5rem;
-      background: linear-gradient(135deg, #293B91, #4a5cb8, #293B91);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      position: relative;
-      z-index: 2;
-    }
-
-    .hero p {
-      font-size: 1.2rem;
-      color: #666;
-      max-width: 600px;
-      margin: 0 auto 2rem;
-      line-height: 1.7;
-      position: relative;
-      z-index: 2;
-    }
-
-    .cta-buttons {
-      display: flex;
-      gap: 1rem;
-      justify-content: center;
-      flex-wrap: wrap;
-      position: relative;
-      z-index: 2;
-    }
-
-    .btn {
-      display: inline-block;
-      padding: 1rem 2rem;
-      text-decoration: none;
-      border-radius: 50px;
-      font-weight: 600;
-      transition: all 0.3s ease;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .btn::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: -100%;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-      transition: left 0.5s ease;
-    }
-
-    .btn:hover::before {
-      left: 100%;
-    }
-
-    .btn:not(.btn-primary) {
-      background: white;
-      color: #293B91;
-      border: 2px solid #293B91;
-      box-shadow: 0 4px 15px rgba(41, 59, 145, 0.2);
-    }
-
-    .btn:not(.btn-primary):hover {
-      background: #293B91;
-      color: white;
-      transform: translateY(-3px);
-      box-shadow: 0 8px 25px rgba(41, 59, 145, 0.3);
-    }
-
-    .btn-primary {
-      background: linear-gradient(135deg, #293B91, #4a5cb8);
-      color: white;
-      border: 2px solid transparent;
-      box-shadow: 0 4px 20px rgba(41, 59, 145, 0.3);
-    }
-
-    .btn-primary:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 8px 30px rgba(41, 59, 145, 0.4);
-    }
-
-    /* Card Styles */
-    .card {
-      background: white;
-      border-radius: 20px;
-      padding: 2rem;
-      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
-      border: 1px solid rgba(41, 59, 145, 0.05);
-      transition: all 0.3s ease;
-    }
-
-    .card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.12);
-    }
-
-    /* Product Section */
-    .product-section {
-      padding: 4rem 0;
-    }
-
+    /* 상품 상세 영역 레이아웃 */
+    .product-section { padding: 4rem 0; }
     .product-grid {
       display: grid;
       grid-template-columns: 2fr 1.2fr;
@@ -245,7 +38,7 @@
       align-items: start;
     }
 
-    /* Product Gallery */
+    /* 갤러리/슬라이더 (네임스페이스로 공통 slider와 충돌 방지) */
     .product-gallery .slider-container {
       height: 450px;
       position: relative;
@@ -253,314 +46,93 @@
       overflow: hidden;
       margin-bottom: 1.5rem;
     }
-
-    .slider {
-      height: 100%;
-      position: relative;
+    .product-gallery .slider { height: 100%; position: relative; }
+    .product-gallery .slide {
+      position: absolute; inset: 0;
+      opacity: 0; transition: opacity 0.5s ease;
+    }
+    .product-gallery .slide.active { opacity: 1; }
+    .product-gallery .slide img {
+      width: 100%; height: 100%;
+      object-fit: cover; border-radius: 16px;
+    }
+    .product-gallery .slider-nav {
+      position: absolute; top: 50%; transform: translateY(-50%);
+      width: 100%; display: flex; justify-content: space-between; padding: 0 1rem;
+    }
+    .product-gallery .slider-nav button {
+      background: rgba(255,255,255,0.9); border: 0;
+      width: 50px; height: 50px; border-radius: 50%;
+      cursor: pointer; font-size: 1.2rem; color: #293B91;
+      display: flex; align-items: center; justify-content: center;
+      transition: all 0.3s ease; box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    }
+    .product-gallery .slider-nav button:hover {
+      background: #293B91; color: #fff; transform: scale(1.1);
     }
 
-    .slide {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      opacity: 0;
-      transition: opacity 0.5s ease;
-    }
-
-    .slide.active {
-      opacity: 1;
-    }
-
-    .slide img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      border-radius: 16px;
-    }
-
-    .slider-nav {
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-      width: 100%;
-      display: flex;
-      justify-content: space-between;
-      padding: 0 1rem;
-    }
-
-    .slider-nav button {
-      background: rgba(255, 255, 255, 0.9);
-      border: none;
-      width: 50px;
-      height: 50px;
-      border-radius: 50%;
-      cursor: pointer;
-      font-size: 1.2rem;
-      color: #293B91;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: all 0.3s ease;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-    }
-
-    .slider-nav button:hover {
-      background: #293B91;
-      color: white;
-      transform: scale(1.1);
-    }
-
-    /* Product Details */
+    /* 제품 정보 타이포 */
     .product-details h3 {
-      color: #293B91;
-      margin-bottom: 1rem;
-      font-size: 1.4rem;
-      font-weight: 700;
+      color: #293B91; margin-bottom: 1rem; font-size: 1.4rem; font-weight: 700;
     }
+    .meta { color: #666; font-size: 0.95rem; margin: 0.5rem 0; }
+    .meta strong { color: #293B91; }
 
-    .spec-list {
-      margin-top: 1.5rem;
-    }
-
+    .spec-list { margin-top: 1.5rem; }
     .spec-list h4 {
-      color: #293B91;
-      margin-bottom: 0.75rem;
-      font-weight: 600;
-      font-size: 1.1rem;
+      color: #293B91; margin-bottom: 0.75rem; font-weight: 600; font-size: 1.1rem;
     }
-
     .spec-list p {
-      margin: 0.5rem 0;
-      color: #666;
-      padding-left: 1rem;
-      position: relative;
+      margin: 0.5rem 0; color: #666; padding-left: 1rem; position: relative;
     }
-
     .spec-list p::before {
-      content: '✓';
-      position: absolute;
-      left: 0;
-      color: #293B91;
-      font-weight: bold;
+      content: '✓'; position: absolute; left: 0; color: #293B91; font-weight: bold;
     }
 
-    /* Pricing */
+    /* 가격/배지 */
     .price-row {
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-      margin: 1rem 0 0.5rem;
+      display: flex; align-items: center; gap: 0.75rem; margin: 1rem 0 0.5rem;
     }
-
-    .price-old {
-      color: #999;
-      text-decoration: line-through;
-      font-size: 1.1rem;
-    }
-
+    .price-old { color: #999; text-decoration: line-through; font-size: 1.1rem; }
     .price-final {
-      font-size: 2.2rem;
-      font-weight: 800;
+      font-size: 2.2rem; font-weight: 800;
       background: linear-gradient(135deg, #293B91, #4a5cb8);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
     }
-
     .badge {
-      display: inline-block;
-      padding: 0.4rem 0.8rem;
-      border-radius: 20px;
-      font-size: 0.85rem;
-      font-weight: 600;
-      background: linear-gradient(135deg, rgba(41, 59, 145, 0.1), rgba(74, 92, 184, 0.1));
-      color: #293B91;
-      border: 1px solid rgba(41, 59, 145, 0.2);
-      animation: pulse 2s ease-in-out infinite;
+      display: inline-block; padding: 0.4rem 0.8rem; border-radius: 20px;
+      font-size: 0.85rem; font-weight: 600;
+      background: linear-gradient(135deg, rgba(41,59,145,0.1), rgba(74,92,184,0.1));
+      color: #293B91; border: 1px solid rgba(41,59,145,0.2); animation: pulse 2s ease-in-out infinite;
     }
+    @keyframes pulse { 0%,100%{transform:scale(1)} 50%{transform:scale(1.05)} }
 
-    @keyframes pulse {
-      0%, 100% { transform: scale(1); }
-      50% { transform: scale(1.05); }
-    }
+    /* 우측 요약 박스 고정 */
+    .sticky-order { position: sticky; top: 7rem; }
+    .sticky-order h2 { color: #293B91; margin-bottom: 1rem; font-size: 1.8rem; font-weight: 700; }
+    .cta-stack { display: flex; gap: 0.75rem; margin-top: 1.5rem; flex-wrap: wrap; }
 
-    .meta {
-      color: #666;
-      font-size: 0.95rem;
-      margin: 0.5rem 0;
-    }
-
-    .meta strong {
-      color: #293B91;
-    }
-
-    /* Sticky Order */
-    .sticky-order {
-      position: sticky;
-      top: 7rem;
-    }
-
-    .sticky-order h2 {
-      color: #293B91;
-      margin-bottom: 1rem;
-      font-size: 1.8rem;
-      font-weight: 700;
-    }
-
-    .cta-stack {
-      display: flex;
-      gap: 0.75rem;
-      margin-top: 1.5rem;
-      flex-wrap: wrap;
-    }
-
-    /* Apply Section */
-    .apply-section {
-      padding: 4rem 0;
-      background: linear-gradient(135deg, #f8faff 0%, #ffffff 100%);
-      text-align: center;
-    }
-
-    .section-title {
-      font-size: 2.5rem;
-      font-weight: 800;
-      margin-bottom: 1rem;
-      background: linear-gradient(135deg, #293B91, #4a5cb8);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-
-    .apply-content p {
-      font-size: 1.1rem;
-      color: #666;
-      margin: 1rem 0;
-      max-width: 600px;
-      margin-left: auto;
-      margin-right: auto;
-    }
-
-    .apply-link {
-      display: inline-block;
-      margin: 2rem 0 1rem;
-      padding: 1.2rem 3rem;
-      background: linear-gradient(135deg, #293B91, #4a5cb8);
-      color: white;
-      text-decoration: none;
-      border-radius: 50px;
-      font-weight: 700;
-      font-size: 1.1rem;
-      box-shadow: 0 8px 30px rgba(41, 59, 145, 0.3);
-      transition: all 0.3s ease;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .apply-link::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: -100%;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-      transition: left 0.5s ease;
-    }
-
-    .apply-link:hover::before {
-      left: 100%;
-    }
-
-    .apply-link:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 12px 40px rgba(41, 59, 145, 0.4);
-    }
-
-    .apply-note {
-      color: #999;
-      font-size: 0.9rem;
-      font-style: italic;
-    }
-
-    /* Footer */
-    footer {
-      background: #293B91;
-      color: white;
-      padding: 2rem 0;
-      text-align: center;
-    }
-
-    .footer-content {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 0 2rem;
-    }
-
-    /* Rating Stars */
-    .meta:has(strong:contains("평점")) {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
-
-    /* Responsive Design */
+    /* 반응형 */
     @media (max-width: 1024px) {
-      .product-grid {
-        grid-template-columns: 1fr;
-        gap: 2rem;
-      }
-      
-      .product-gallery .slider-container {
-        height: 350px;
-      }
-      
-      .sticky-order {
-        position: static;
-      }
+      .product-grid { grid-template-columns: 1fr; gap: 2rem; }
+      .product-gallery .slider-container { height: 350px; }
+      .sticky-order { position: static; }
     }
-
     @media (max-width: 768px) {
-      .hero h1 {
-        font-size: 2.5rem;
-      }
-      
-      .hero p {
-        font-size: 1rem;
-      }
-      
-      .container {
-        padding: 0 1rem;
-      }
-      
-      .header-container {
-        padding: 1rem;
-      }
-      
-      .card {
-        padding: 1.5rem;
-      }
-      
-      .cta-buttons {
-        flex-direction: column;
-        align-items: center;
-      }
-      
-      .btn {
-        width: 200px;
-        text-align: center;
-      }
+      .product-gallery .slider-container { height: 280px; }
     }
   </style>
 </head>
-  <header>
-  <div class="header-container">
-    <div class="logo">Haneul Worship</div>
-    <a href="javascript:history.back()" class="back-btn">← 뒤로가기</a>
-  </div>
-</header>
+
 <body>
+  <!-- Header (구조 그대로, 스타일은 style.css의 header/.header-container/.logo 사용) -->
+  <header>
+    <div class="header-container">
+      <div class="logo">Haneul Worship</div>
+      <a href="javascript:history.back()" class="back-btn">← 뒤로가기</a>
+    </div>
+  </header>
+
   <!-- Product -->
   <section id="product-section" class="product-section">
     <div class="container">
@@ -569,15 +141,22 @@
         <div class="product-gallery card">
           <div class="slider-container">
             <div class="slider">
-              <div class="slide active"><img src="https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=800&h=600&fit=crop" alt="Haneul Worship Black T-Shirt"></div>
-              <div class="slide"><img src="https://images.unsplash.com/photo-1586790170083-2f9ceadc732d?w=800&h=600&fit=crop" alt="Haneul Worship White T-Shirt"></div>
-              <div class="slide"><img src="https://images.unsplash.com/photo-1503341504253-dff4815485f1?w=800&h=600&fit=crop" alt="Fabric Detail"></div>
+              <div class="slide active">
+                <img src="https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=800&h=600&fit=crop" alt="Haneul Worship Black T-Shirt">
+              </div>
+              <div class="slide">
+                <img src="https://images.unsplash.com/photo-1586790170083-2f9ceadc732d?w=800&h=600&fit=crop" alt="Haneul Worship White T-Shirt">
+              </div>
+              <div class="slide">
+                <img src="https://images.unsplash.com/photo-1503341504253-dff4815485f1?w=800&h=600&fit=crop" alt="Fabric Detail">
+              </div>
             </div>
             <div class="slider-nav">
               <button class="prev">←</button>
               <button class="next">→</button>
             </div>
           </div>
+
           <div class="product-details">
             <h3>제품 정보</h3>
             <p class="meta"><strong>상품명:</strong> Haneul Worship Tee</p>
@@ -600,7 +179,7 @@
             <span class="badge">50% 할인</span>
           </div>
           <div class="price-final">15,000원</div>
-          <p class="meta">* 세트로 구매 시 1000원 추가 할인</p>
+          <p class="meta">* 세트로 구매 시 1,000원 추가 할인</p>
 
           <div class="spec-list">
             <h4>사이즈 옵션</h4>
@@ -609,6 +188,7 @@
           </div>
 
           <div class="cta-stack">
+            <!-- 공통 버튼/링크 스타일은 style.css의 .apply-link 사용 -->
             <a href="https://example.com/order" target="_blank" class="apply-link">주문하기</a>
           </div>
         </aside>
@@ -616,7 +196,7 @@
     </div>
   </section>
 
-  <!-- Footer -->
+  <!-- Footer (공통 CSS의 footer 스타일을 그대로 사용) -->
   <footer>
     <div class="footer-content">
       <div class="copyright">
@@ -628,7 +208,7 @@
   <script>
     // Slider functionality
     let currentSlide = 0;
-    const slides = document.querySelectorAll('.slide');
+    const slides = document.querySelectorAll('.product-gallery .slide');
     const totalSlides = slides.length;
 
     function showSlide(index) {
@@ -636,37 +216,29 @@
         slide.classList.toggle('active', i === index);
       });
     }
-
     function nextSlide() {
       currentSlide = (currentSlide + 1) % totalSlides;
       showSlide(currentSlide);
     }
-
     function prevSlide() {
       currentSlide = (currentSlide - 1 + totalSlides) % totalSlides;
       showSlide(currentSlide);
     }
-
-    // Event listeners
-    document.querySelector('.next').addEventListener('click', nextSlide);
-    document.querySelector('.prev').addEventListener('click', prevSlide);
-
-    // Auto slide
+    document.querySelector('.product-gallery .next').addEventListener('click', nextSlide);
+    document.querySelector('.product-gallery .prev').addEventListener('click', prevSlide);
     setInterval(nextSlide, 5000);
 
     // Update current year
     document.getElementById('current-year').textContent = new Date().getFullYear();
 
-    // Smooth scrolling for anchor links
+    // Smooth scrolling for in-page anchors
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
       anchor.addEventListener('click', function (e) {
-        e.preventDefault();
-        const target = document.querySelector(this.getAttribute('href'));
-        if (target) {
-          target.scrollIntoView({
-            behavior: 'smooth',
-            block: 'start'
-          });
+        const href = this.getAttribute('href');
+        if (href.length > 1) {
+          e.preventDefault();
+          const target = document.querySelector(href);
+          if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
       });
     });
