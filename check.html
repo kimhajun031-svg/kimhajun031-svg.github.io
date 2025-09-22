@@ -62,7 +62,7 @@
         <input type="text" id="name" placeholder="이름 (예: 김하준)" />
         <br />
         <button id="searchBtn">조회</button>
-        <div id="hint" style="margin-top:8px;font-size:13px;color:#666;"></div>
+        <div id="hint" style="margin-top:8px;font-size:13px;color:#666;">데이터 불러오는 중...</div>
       </div>
       <div id="result"></div>
     </section>
@@ -91,43 +91,19 @@
 
   <script>
     const SHEET_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRHCTRS-AgdKrrgIc81tfGy-0Fj-0NkROsAH4-nBhuzCjQPO3U4GtlUFDDNwGhVNjkQAt-ruawXpzVi/pub?gid=1875163185&single=true&output=csv";
-    let data = [];
+    let rows = [];
+    let headers = [];
     let ready = false;
 
-    // 간단 CSV 파서 (큰따옴표 처리 포함)
-    function parseCSV(text) {
-      const lines = text.split(/\r?\n/).filter(l => l.trim() !== "");
-      const headers = lines[0].split(",");
-      const rows = lines.slice(1).map(line => {
-        const cols = [];
-        let current = "", insideQuotes = false;
-        for (let i=0; i<line.length; i++) {
-          const c = line[i];
-          if (c === '"') {
-            insideQuotes = !insideQuotes;
-          } else if (c === ',' && !insideQuotes) {
-            cols.push(current.trim());
-            current = "";
-          } else {
-            current += c;
-          }
-        }
-        cols.push(current.trim());
-        const obj = {};
-        headers.forEach((h, i) => obj[h.trim()] = cols[i] || "");
-        return obj;
-      });
-      return rows;
-    }
-
-    // 데이터 로드
-    document.getElementById('hint').textContent = '데이터 불러오는 중...';
+    // CSV 불러오기 (단순 split)
     fetch(SHEET_URL)
       .then(res => res.text())
       .then(text => {
-        data = parseCSV(text);
+        const lines = text.trim().split("\n");
+        headers = lines[0].split(",");   // 첫 줄은 헤더
+        rows = lines.slice(1).map(l => l.split(","));
         ready = true;
-        document.getElementById('hint').textContent = '팀 이름과 이름을 모두 정확히 입력하세요.';
+        document.getElementById('hint').textContent = '팀 이름과 이름을 정확히 입력하세요.';
       })
       .catch(() => {
         document.getElementById('hint').textContent = '데이터를 불러오지 못했습니다.';
@@ -148,39 +124,31 @@
       if (!ready) { showMsg('데이터 로딩 중입니다.'); return; }
       if (!team || !name) { showMsg('팀 이름과 이름을 모두 입력하세요.'); return; }
 
-      const matches = data.filter(r =>
-        (r["예배팀"] || "").trim() === team &&
-        (r["이름"] || "").trim() === name
+      // 정확히 일치하는 데이터만 검색
+      const filtered = rows.filter(r =>
+        (r[0] || "").trim() === team &&
+        (r[1] || "").trim() === name
       );
 
-      if (matches.length === 0) { showMsg('검색 결과 없음'); return; }
+      if (filtered.length === 0) { showMsg('검색 결과 없음'); return; }
 
-      const r = matches[0];
-      const pay     = r["입금 현황"] || "";
-      const item    = r["구입"] || "";
-      const amount  = r["입금금액"] || "";
-      const tshirt  = r["티셔츠 사이즈"] || "";
-      const hoodie  = r["후드집업 사이즈"] || "";
-      const receive = r["수령여부"] || "";
-
-      const payClass = /완료/.test(pay) ? 'success' : 'danger';
-      const recvClass = /미/.test(receive) ? 'warning' : 'success';
-
-      document.getElementById('result').innerHTML = `
+      const r = filtered[0]; // 첫 번째 결과
+      const html = `
         <div class="result-card">
-          <h3>신청자: ${r["이름"]} (${r["예배팀"]})</h3>
-          <div class="result-item"><strong>입금 현황:</strong> <span class="pill ${payClass}">${pay || '-'}</span></div>
-          <div class="result-item"><strong>구입 내역:</strong> ${item || '-'}</div>
-          <div class="result-item"><strong>금액:</strong> ${amount || '-'}</div>
-          <div class="result-item"><strong>티셔츠 사이즈:</strong> ${tshirt || '-'}</div>
-          <div class="result-item"><strong>후드집업 사이즈:</strong> ${hoodie || '-'}</div>
-          <div class="result-item"><strong>주문 상태:</strong> <span class="pill ${recvClass}">${receive || '미수령'}</span></div>
+          <h3>신청자: ${r[1]} (${r[0]})</h3>
+          <div class="result-item"><strong>입금 현황:</strong> <span class="pill ${/완료/.test(r[2]) ? 'success' : 'danger'}">${r[2]}</span></div>
+          <div class="result-item"><strong>구입 내역:</strong> ${r[3]}</div>
+          <div class="result-item"><strong>금액:</strong> ${r[4]}</div>
+          <div class="result-item"><strong>티셔츠 사이즈:</strong> ${r[5]}</div>
+          <div class="result-item"><strong>후드집업 사이즈:</strong> ${r[6]}</div>
+          <div class="result-item"><strong>주문 상태:</strong> <span class="pill ${/미/.test(r[7]) ? 'warning' : 'success'}">${r[7]}</span></div>
         </div>
       `;
+      document.getElementById("result").innerHTML = html;
     }
 
     function showMsg(msg) {
-      document.getElementById('result').innerHTML =
+      document.getElementById("result").innerHTML =
         `<p style="text-align:center; margin-top:20px;">${msg}</p>`;
     }
   </script>
