@@ -6,9 +6,58 @@
   <title>신청 조회 | Haneul Worship Team</title>
   <link rel="stylesheet" href="assets/css/style.css" />
   <style>
-    table { border-collapse: collapse; width: 100%; margin-top: 20px; }
-    th, td { border: 1px solid #ccc; padding: 8px; text-align: center; }
-    th { background: #f0f0f0; }
+    body { font-family: 'Noto Sans KR', sans-serif; }
+    .search-box {
+      background: #f9f9ff;
+      padding: 20px;
+      border-radius: 12px;
+      text-align: center;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      max-width: 500px;
+      margin: 0 auto;
+    }
+    .search-box input {
+      width: 80%;
+      padding: 10px;
+      margin: 8px 0;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+    }
+    .search-box button {
+      background: #1e2a78;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      margin-top: 10px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+    .search-box button:hover { background: #162060; }
+
+    .result-card {
+      margin-top: 30px;
+      background: white;
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+      text-align: left;
+    }
+    .result-card h3 {
+      margin-bottom: 15px;
+      font-size: 20px;
+      border-bottom: 2px solid #eee;
+      padding-bottom: 8px;
+    }
+    .result-item {
+      margin: 8px 0;
+      font-size: 16px;
+    }
+    .status-ok { color: green; font-weight: bold; }
+    .status-fail { color: red; font-weight: bold; }
   </style>
 </head>
 
@@ -33,25 +82,16 @@
   </section>
 
   <!-- Search Section -->
-  <section class="apply-section">
-    <div class="container">
-      <div class="apply-content">
-        <h2 class="section-title">내 신청 내역 확인</h2>
-        <p>아래 정보를 입력 후 조회 버튼을 눌러주세요.</p>
-
-        <div class="form-group">
-          <label>팀 이름</label>
-          <input type="text" id="team" placeholder="예: 중계팀" />
-        </div>
-        <div class="form-group">
-          <label>이름</label>
-          <input type="text" id="name" placeholder="예: 김하준" />
-        </div>
-        <button class="btn btn-primary" onclick="search()">조회</button>
-
-        <div id="result" style="margin-top:20px;"></div>
-      </div>
+  <section>
+    <div class="search-box">
+      <h2>내 신청 내역 확인</h2>
+      <input type="text" id="team" placeholder="팀 이름 (예: 중계팀)" />
+      <input type="text" id="name" placeholder="이름 (예: 김하준)" />
+      <br>
+      <button onclick="search()">조회</button>
     </div>
+
+    <div id="result"></div>
   </section>
 
   <!-- Footer -->
@@ -92,15 +132,22 @@
       const filtered = rows.filter((r, idx) => idx > 0 && r[0].includes(team) && r[1].includes(name));
 
       if (filtered.length === 0) {
-        document.getElementById("result").innerHTML = "<p>검색 결과 없음</p>";
+        document.getElementById("result").innerHTML = "<p style='text-align:center; margin-top:20px;'>검색 결과 없음</p>";
         return;
       }
 
-      let html = "<table><tr>" + header.map(h => `<th>${h}</th>`).join("") + "</tr>";
-      filtered.forEach(r => {
-        html += "<tr>" + r.map(c => `<td>${c}</td>`).join("") + "</tr>";
-      });
-      html += "</table>";
+      const r = filtered[0]; // 첫번째 결과만 표시
+      const html = `
+        <div class="result-card">
+          <h3>신청자: ${r[1]} (${r[0]})</h3>
+          <div class="result-item"><strong>입금 현황:</strong> <span class="${r[2].includes('완료') ? 'status-ok' : 'status-fail'}">${r[2]}</span></div>
+          <div class="result-item"><strong>구입 내역:</strong> ${r[3]}</div>
+          <div class="result-item"><strong>금액:</strong> ${r[4]}</div>
+          <div class="result-item"><strong>티셔츠 사이즈:</strong> ${r[5]}</div>
+          <div class="result-item"><strong>후드집업 사이즈:</strong> ${r[6]}</div>
+          <div class="result-item"><strong>수령 여부:</strong> ${r[7]}</div>
+        </div>
+      `;
       document.getElementById("result").innerHTML = html;
     }
 
