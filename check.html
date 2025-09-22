@@ -67,7 +67,7 @@
         <input type="text" id="name" placeholder="이름 (예: 김하준)" />
         <br />
         <button id="searchBtn">조회</button>
-        <button id="debugBtn" type="button" style="background:#666;margin-left:10px;">디버그</button>
+<!--         <button id="debugBtn" type="button" style="background:#666;margin-left:10px;">디버그</button> -->
         <div id="hint" style="margin-top:8px;font-size:13px;color:#666;">데이터 불러오는 중...</div>
         <div id="debug" class="debug-info"></div>
       </div>
@@ -163,7 +163,7 @@
           console.log('Sample row:', rows[0]);
           
           ready = true;
-          document.getElementById('hint').textContent = `${rows.length}개의 신청 데이터를 불러왔습니다. 팀 이름과 이름을 정확히 입력하세요.`;
+          document.getElementById('hint').textContent = `팀 이름과 이름을 정확히 입력하세요.`;
         } else {
           throw new Error('파싱된 데이터가 없습니다.');
         }
