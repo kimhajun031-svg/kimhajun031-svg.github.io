@@ -106,7 +106,6 @@
     let rows = [];
     let ready = false;
 
-    // CSV 파서
     function parseCSV(text) {
       const result = [];
       const lines = text.trim().split(/\r?\n/);
@@ -133,7 +132,6 @@
       return result;
     }
 
-    // 데이터 로드
     function loadData(callback) {
       fetch(SHEET_URL)
         .then(res => res.text())
@@ -143,7 +141,7 @@
             rows = parsed.slice(1);
             ready = true;
             document.getElementById('hint').textContent = '팀 이름과 이름을 정확히 입력하세요.';
-            if (callback) callback(); // 로드 끝나면 콜백 실행
+            if (callback) callback();
           } else {
             throw new Error('데이터가 비어있습니다.');
           }
@@ -153,15 +151,10 @@
         });
     }
 
-    // 초기 데이터 로드
     loadData();
-
-    // 1분마다 자동 새로고침
     setInterval(loadData, 60 * 1000);
 
-    // 조회 실행
     document.getElementById('searchBtn').addEventListener('click', () => {
-      // 버튼 클릭 시 → 최신 데이터 강제 로드 후 검색
       loadData(search);
     });
 
@@ -190,20 +183,26 @@
         return;
       }
 
-      const r = filtered[0];
-      const safe = (i, def='') => (r[i] || def).replace(/"/g, '').trim();
+      const html = filtered.map(r => {
+        const safe = (i, def='') => (r[i] || def).replace(/"/g, '').trim();
 
-      const html = `
-        <div class="result-card">
-          <h3>신청자: ${safe(1)} (${safe(0)})</h3>
-          <div class="result-item"><strong>입금 현황:</strong> <span class="pill ${/완료/.test(safe(2)) ? 'success' : 'danger'}">${safe(2) || '미확인'}</span></div>
-          <div class="result-item"><strong>구입 내역:</strong> ${safe(3)}</div>
-          <div class="result-item"><strong>입금 금액:</strong> ${safe(4)}</div>
-          <div class="result-item"><strong>티셔츠 사이즈:</strong> ${safe(5)}</div>
-          <div class="result-item"><strong>후드집업 사이즈:</strong> ${safe(6)}</div>
-          <div class="result-item"><strong>접수 상태:</strong> <span class="pill ${/미/.test(safe(7)) ? 'warning' : 'success'}">${safe(7) || '미수령'}</span></div>
-        </div>
-      `;
+        return `
+          <div class="result-card">
+            <h3>신청자: ${safe(1)} (${safe(0)})</h3>
+            <div class="result-item"><strong>입금 현황:</strong> 
+              <span class="pill ${/완료/.test(safe(2)) ? 'success' : 'danger'}">${safe(2) || '미확인'}</span>
+            </div>
+            <div class="result-item"><strong>구입 내역:</strong> ${safe(3)}</div>
+            <div class="result-item"><strong>입금 금액:</strong> ${safe(4)}</div>
+            <div class="result-item"><strong>티셔츠 사이즈:</strong> ${safe(5)}</div>
+            <div class="result-item"><strong>후드집업 사이즈:</strong> ${safe(6)}</div>
+            <div class="result-item"><strong>접수 상태:</strong> 
+              <span class="pill ${/미/.test(safe(7)) ? 'warning' : 'success'}">${safe(7) || '미수령'}</span>
+            </div>
+          </div>
+        `;
+      }).join("");
+
       document.getElementById("result").innerHTML = html;
     }
 
@@ -212,7 +211,6 @@
         `<div style="text-align:center; margin-top:20px; padding:20px; background:#f9f9f9; border-radius:8px;">${msg}</div>`;
     }
 
-    // 푸터 연도 자동 설정
     document.addEventListener('DOMContentLoaded', () => {
       const yearElement = document.getElementById('current-year');
       if (yearElement) yearElement.textContent = new Date().getFullYear();
