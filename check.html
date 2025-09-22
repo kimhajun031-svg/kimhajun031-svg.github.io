@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>신청 조회 | Haneul Worship Team</title>
+  <link rel="stylesheet" href="assets/css/style.css" />
+</head>
+
+<body>
+  <!-- Header -->
+  <header>
+      <div class="header-container">
+          <div class="logo">Haneul Worship</div>
+          <nav>
+              <ul>
+                  <li><a href="index.html#apply-section"><strong>신청</strong></a></li>
+                  <li><a href="check.html"><strong>신청 조회</strong></a></li>
+              </ul>
+          </nav>
+      </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero">
+      <h1>신청 현황 조회</h1>
+      <p>팀 이름과 이름을 입력하면 신청 내역과 수령 여부(진행 상태)를 확인할 수 있습니다.</p>
+  </section>
+
+  <!-- Search Section -->
+  <section class="apply-section">
+    <div class="container">
+      <div class="apply-content">
+        <h2 class="section-title">내 신청 내역 확인</h2>
+        <p>아래 정보를 입력 후 조회 버튼을 눌러주세요.</p>
+
+        <div class="form-group">
+          <label>팀 이름</label>
+          <input type="text" id="team" placeholder="예: 중계팀" />
+        </div>
+        <div class="form-group">
+          <label>이름</label>
+          <input type="text" id="name" placeholder="예: 김하준" />
+        </div>
+        <button class="btn btn-primary" onclick="search()">조회</button>
+
+        <div id="result" style="margin-top:20px;"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+      <div class="footer-content">
+          <div class="footer-info">
+              <div>
+                  <p><strong>상호:</strong> Haneul Worship Team</p>
+                  <p><strong>대표자:</strong> Jesus</p>
+                  <p><strong>사업자등록번호:</strong> I'm nothing. Without Love.</p>
+              </div>
+              <div>
+                  <p><strong>주소:</strong> 우리가 꿈꾸는 나라</p>
+                  <p><strong>전화:</strong> 기도</p>
+                  <p><strong>이메일:</strong> 찬양</p>
+              </div>
+          </div>
+          <div class="copyright">
+              <p>&copy; <span id="current-year"></span> Haneul Worship Team. All rights reserved.</p>
+          </div>
+      </div>
+  </footer>
+
+  <script>
+    const sheetURL = "https://docs.google.com/spreadsheets/d/시트ID/export?format=csv"; // 구글 시트 CSV 주소
+    let rows = [];
+
+    async function loadSheet() {
+      const res = await fetch(sheetURL);
+      const text = await res.text();
+      rows = text.split("\n").map(r => r.split(","));
+    }
+
+    function search() {
+      const team = document.getElementById("team").value.trim();
+      const name = document.getElementById("name").value.trim();
+      const header = rows[0];
+      const filtered = rows.filter(r => r[0].includes(team) && r[1].includes(name));
+
+      if (filtered.length === 0) {
+        document.getElementById("result").innerHTML = "<p>검색 결과 없음</p>";
+        return;
+      }
+
+      let html = "<table><tr>" + header.map(h => `<th>${h}</th>`).join("") + "</tr>";
+      filtered.forEach(r => {
+        html += "<tr>" + r.map(c => `<td>${c}</td>`).join("") + "</tr>";
+      });
+      html += "</table>";
+      document.getElementById("result").innerHTML = html;
+    }
+
+    loadSheet();
+  </script>
+</body>
+</html>
