@@ -5,6 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>신청 조회 | Haneul Worship Team</title>
   <link rel="stylesheet" href="assets/css/style.css" />
+  <style>
+    table { border-collapse: collapse; width: 100%; margin-top: 20px; }
+    th, td { border: 1px solid #ccc; padding: 8px; text-align: center; }
+    th { background: #f0f0f0; }
+  </style>
 </head>
 
 <body>
@@ -71,7 +76,7 @@
   </footer>
 
   <script>
-    const sheetURL = "https://docs.google.com/spreadsheets/d/시트ID/export?format=csv"; // 구글 시트 CSV 주소
+    const sheetURL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRHCTRS-AgdKrrgIc81tfGy-0Fj-0NkROsAH4-nBhuzCjQPO3U4GtlUFDDNwGhVNjkQAt-ruawXpzVi/pub?gid=1875163185&single=true&output=csv";
     let rows = [];
 
     async function loadSheet() {
@@ -84,7 +89,7 @@
       const team = document.getElementById("team").value.trim();
       const name = document.getElementById("name").value.trim();
       const header = rows[0];
-      const filtered = rows.filter(r => r[0].includes(team) && r[1].includes(name));
+      const filtered = rows.filter((r, idx) => idx > 0 && r[0].includes(team) && r[1].includes(name));
 
       if (filtered.length === 0) {
         document.getElementById("result").innerHTML = "<p>검색 결과 없음</p>";
