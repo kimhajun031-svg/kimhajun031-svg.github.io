@@ -179,7 +179,7 @@
           <div class="result-item"><strong>금액:</strong> ${safe(4)}</div>
           <div class="result-item"><strong>티셔츠 사이즈:</strong> ${safe(5)}</div>
           <div class="result-item"><strong>후드집업 사이즈:</strong> ${safe(6)}</div>
-          <div class="result-item"><strong>수령 여부:</strong> <span class="pill ${/미/.test(safe(7)) ? 'warning' : 'success'}">${safe(7) || '미수령'}</span></div>
+          <div class="result-item"><strong>접수 상태:</strong> <span class="pill ${/미/.test(safe(7)) ? 'warning' : 'success'}">${safe(7) || '미수령'}</span></div>
         </div>
       `;
       document.getElementById("result").innerHTML = html;
