@@ -7,7 +7,7 @@
   <link rel="stylesheet" href="assets/css/style.css" />
   <style>
     body { font-family: 'Noto Sans KR', sans-serif; margin:0; }
-    main.page { padding: 72px 16px 96px; } /* 상단 여백 */
+    main.page { padding: 72px 16px 96px; }
 
     .search-box {
       background:#f9f9ff; padding:20px; border-radius:12px; text-align:center;
@@ -89,29 +89,49 @@
     </div>
   </footer>
 
-  <!-- Papa Parse (CSV 파서) -->
-  <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
-
   <script>
     const SHEET_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRHCTRS-AgdKrrgIc81tfGy-0Fj-0NkROsAH4-nBhuzCjQPO3U4GtlUFDDNwGhVNjkQAt-ruawXpzVi/pub?gid=1875163185&single=true&output=csv";
     let data = [];
     let ready = false;
 
-    // 데이터 불러오기
+    // 간단 CSV 파서 (큰따옴표 처리 포함)
+    function parseCSV(text) {
+      const lines = text.split(/\r?\n/).filter(l => l.trim() !== "");
+      const headers = lines[0].split(",");
+      const rows = lines.slice(1).map(line => {
+        const cols = [];
+        let current = "", insideQuotes = false;
+        for (let i=0; i<line.length; i++) {
+          const c = line[i];
+          if (c === '"') {
+            insideQuotes = !insideQuotes;
+          } else if (c === ',' && !insideQuotes) {
+            cols.push(current.trim());
+            current = "";
+          } else {
+            current += c;
+          }
+        }
+        cols.push(current.trim());
+        const obj = {};
+        headers.forEach((h, i) => obj[h.trim()] = cols[i] || "");
+        return obj;
+      });
+      return rows;
+    }
+
+    // 데이터 로드
     document.getElementById('hint').textContent = '데이터 불러오는 중...';
-    Papa.parse(SHEET_URL, {
-      download: true,
-      header: true,
-      skipEmptyLines: true,
-      complete: (res) => {
-        data = res.data;
+    fetch(SHEET_URL)
+      .then(res => res.text())
+      .then(text => {
+        data = parseCSV(text);
         ready = true;
         document.getElementById('hint').textContent = '팀 이름과 이름을 모두 정확히 입력하세요.';
-      },
-      error: () => {
+      })
+      .catch(() => {
         document.getElementById('hint').textContent = '데이터를 불러오지 못했습니다.';
-      }
-    });
+      });
 
     // 조회 실행
     document.getElementById('searchBtn').addEventListener('click', search);
@@ -125,33 +145,23 @@
       const team = document.getElementById('team').value.trim();
       const name = document.getElementById('name').value.trim();
 
-      if (!ready) {
-        showMsg('데이터 로딩 중입니다. 잠시 후 다시 시도하세요.');
-        return;
-      }
-      if (!team || !name) {
-        showMsg('팀 이름과 이름을 모두 입력하세요.');
-        return;
-      }
+      if (!ready) { showMsg('데이터 로딩 중입니다.'); return; }
+      if (!team || !name) { showMsg('팀 이름과 이름을 모두 입력하세요.'); return; }
 
-      // 정확히 일치하는 행 검색
       const matches = data.filter(r =>
         (r["예배팀"] || "").trim() === team &&
         (r["이름"] || "").trim() === name
       );
 
-      if (matches.length === 0) {
-        showMsg('검색 결과 없음');
-        return;
-      }
+      if (matches.length === 0) { showMsg('검색 결과 없음'); return; }
 
       const r = matches[0];
-      const pay     = (r["입금 현황"] || "").trim();
-      const item    = (r["구입"] || "").trim();
-      const amount  = (r["입금금액"] || "").trim();
-      const tshirt  = (r["티셔츠 사이즈"] || "").trim();
-      const hoodie  = (r["후드집업 사이즈"] || "").trim();
-      const receive = (r["수령여부"] || "").trim();
+      const pay     = r["입금 현황"] || "";
+      const item    = r["구입"] || "";
+      const amount  = r["입금금액"] || "";
+      const tshirt  = r["티셔츠 사이즈"] || "";
+      const hoodie  = r["후드집업 사이즈"] || "";
+      const receive = r["수령여부"] || "";
 
       const payClass = /완료/.test(pay) ? 'success' : 'danger';
       const recvClass = /미/.test(receive) ? 'warning' : 'success';
