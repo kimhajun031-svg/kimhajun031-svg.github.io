@@ -38,6 +38,18 @@
     .success { background:#e6f7e6; color:#1a7f37; }
     .danger  { background:#fdecea; color:#d93025; }
     .warning { background:#fff4e5; color:#b26a00; }
+
+    header { background:#f1f1f9; padding:16px; }
+    .header-container { display:flex; justify-content:space-between; align-items:center; max-width:1000px; margin:0 auto; }
+    .logo { font-weight:bold; font-size:20px; }
+    nav ul { list-style:none; display:flex; gap:16px; margin:0; padding:0; }
+    nav a { text-decoration:none; color:#1e2a78; }
+
+    footer { background:#f1f1f9; padding:24px 16px; margin-top:40px; }
+    .footer-content { max-width:1000px; margin:0 auto; }
+    .footer-info { display:flex; justify-content:space-between; font-size:14px; }
+    .footer-info p { margin:4px 0; }
+    .copyright { margin-top:16px; font-size:13px; text-align:center; color:#555; }
   </style>
 </head>
 <body>
@@ -94,28 +106,23 @@
     let rows = [];
     let ready = false;
 
-    // 간단 CSV 파서 (따옴표/쉼표 처리)
+    // CSV 파서
     function parseCSV(text) {
       const result = [];
       const lines = text.trim().split(/\r?\n/);
-
       for (let line of lines) {
         const row = [];
         let current = '';
         let inQuotes = false;
-
         for (let i = 0; i < line.length; i++) {
           const char = line[i];
           const nextChar = line[i + 1];
-
           if (char === '"' && inQuotes && nextChar === '"') {
-            current += '"';
-            i++;
+            current += '"'; i++;
           } else if (char === '"') {
             inQuotes = !inQuotes;
           } else if (char === ',' && !inQuotes) {
-            row.push(current.trim());
-            current = '';
+            row.push(current.trim()); current = '';
           } else {
             current += char;
           }
@@ -127,27 +134,42 @@
     }
 
     // 데이터 로드
-    fetch(SHEET_URL)
-      .then(res => res.text())
-      .then(text => {
-        const parsed = parseCSV(text);
-        if (parsed.length > 0) {
-          rows = parsed.slice(1); // 첫 줄은 헤더
-          ready = true;
-          document.getElementById('hint').textContent = '팀 이름과 이름을 정확히 입력하세요.';
-        } else {
-          throw new Error('데이터가 비어있습니다.');
-        }
-      })
-      .catch(err => {
-        document.getElementById('hint').textContent = '데이터 불러오기 실패: ' + err.message;
-      });
+    function loadData(callback) {
+      fetch(SHEET_URL)
+        .then(res => res.text())
+        .then(text => {
+          const parsed = parseCSV(text);
+          if (parsed.length > 0) {
+            rows = parsed.slice(1);
+            ready = true;
+            document.getElementById('hint').textContent = '팀 이름과 이름을 정확히 입력하세요.';
+            if (callback) callback(); // 로드 끝나면 콜백 실행
+          } else {
+            throw new Error('데이터가 비어있습니다.');
+          }
+        })
+        .catch(err => {
+          document.getElementById('hint').textContent = '데이터 불러오기 실패: ' + err.message;
+        });
+    }
+
+    // 초기 데이터 로드
+    loadData();
+
+    // 1분마다 자동 새로고침
+    setInterval(loadData, 60 * 1000);
 
     // 조회 실행
-    document.getElementById('searchBtn').addEventListener('click', search);
+    document.getElementById('searchBtn').addEventListener('click', () => {
+      // 버튼 클릭 시 → 최신 데이터 강제 로드 후 검색
+      loadData(search);
+    });
+
     ['team','name'].forEach(id => {
       document.getElementById(id).addEventListener('keydown', e => {
-        if (e.key === 'Enter') search();
+        if (e.key === 'Enter') {
+          loadData(search);
+        }
       });
     });
 
@@ -163,9 +185,9 @@
         (r[1] || "").replace(/"/g, '').trim() === name
       );
 
-      if (filtered.length === 0) { 
-        showMsg('검색 결과 없음'); 
-        return; 
+      if (filtered.length === 0) {
+        showMsg('검색 결과 없음');
+        return;
       }
 
       const r = filtered[0];
